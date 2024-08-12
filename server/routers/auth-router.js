@@ -6,6 +6,7 @@ const {
   userSignUpValidation,
 } = require("../validation/user-validation");
 const validationMiddleware = require("../middleware/validate-middleware");
+const authMiddleware = require("../middleware/auth-middleware");
 
 router.route("/").get(auth.home);
 
@@ -16,5 +17,7 @@ router
 router
   .route("/login")
   .post(validationMiddleware(userSignInValidation), auth.login);
+
+router.route("/user").get(authMiddleware, auth.user);
 
 module.exports = router;
