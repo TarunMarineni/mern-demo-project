@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./lib/db");
 const authRouter = require("./routers/auth-router");
+const serviceRouter = require("./routers/service-router");
 const contactRouter = require("./routers/contact-router");
 const errorMiddleware = require("./middleware/error-middleware");
 
@@ -12,6 +13,7 @@ app.use(cors());
 
 app.use("/api/auth", authRouter);
 app.use("/api/contact", contactRouter);
+app.use("/api/serivces", serviceRouter);
 
 //Error middleware
 app.use(errorMiddleware);
