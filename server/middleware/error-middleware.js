@@ -1,6 +1,10 @@
-const errorMiddleware = async (error, req, res, next) => {
-  return res.status(error.status).json({
-    message: error.message,
+// error-middleware.js
+
+const errorMiddleware = (err, req, res, next) => {
+  const statusCode = err.status || 500; // Default to 500 if status is not set
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || "Internal Server Error",
   });
 };
 

@@ -10,6 +10,10 @@ import { Register } from "./pages/Register";
 import { Services } from "./pages/Services";
 import { Logout } from "./pages/Logout";
 import { Error } from "./pages/Error";
+import { AdminLayout } from "./components/layouts/Admin-Layout";
+import { AdminContacts } from "./pages/Admin-Contacts";
+import { AdminUsers } from "./pages/Admin-Users";
+import { AdminUserEdit } from "./pages/Admin-User-Edit";
 
 const App = () => {
   return (
@@ -25,6 +29,13 @@ const App = () => {
           <Route path="/services" element={<Services />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<Error />} />
+
+          {/* Admin routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="contacts" element={<AdminContacts />} />
+            <Route path="users/:id/edit" element={<AdminUserEdit />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../store/auth";
 
 export const Login = () => {
@@ -31,11 +33,16 @@ export const Login = () => {
         body: JSON.stringify(user),
       });
 
+      const res_data = await response.json();
+
       if (response.ok) {
-        const res_data = await response.json();
         setTokenInLC(res_data.token);
         setUser({ email: "", password: "" });
         navigate("/");
+      } else {
+        toast.error(res_data.message, {
+          theme: "colored",
+        });
       }
     } catch (error) {
       console.log(error);

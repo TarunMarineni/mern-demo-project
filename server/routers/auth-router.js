@@ -8,8 +8,6 @@ const {
 const validationMiddleware = require("../middleware/validate-middleware");
 const authMiddleware = require("../middleware/auth-middleware");
 
-router.route("/").get(auth.home);
-
 router
   .route("/register")
   .post(validationMiddleware(userSignUpValidation), auth.register);
