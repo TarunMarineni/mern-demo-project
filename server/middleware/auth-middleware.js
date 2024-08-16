@@ -9,21 +9,28 @@ const authMiddleware = async (req, res, next) => {
   }
 
   tokenVal = token.replace("Bearer", "").trim();
-  var isVerified = jwt.verify(tokenVal, process.env.JWT_KEY);
 
-  userData = await UserModel.findOne({ email: isVerified.email }).select({
-    password: 0,
+  jwt.verify(tokenVal, process.env.JWT_KEY, async (err, decoded) => {
+    if (err) {
+      return res.json({
+        message: "Failed to authenticate token.",
+      });
+    }
+
+    userData = await UserModel.findOne({ email: decoded.email }).select({
+      password: 0,
+    });
+
+    if (!userData) {
+      return res.status(400).json({ message: "user not found" });
+    }
+
+    req.user = userData;
+    req.token = token;
+    req.userId = userData._id;
+
+    next();
   });
-
-  if (!userData) {
-    return res.status(400).json({ message: "user not found" });
-  }
-
-  req.user = userData;
-  req.token = token;
-  req.userId = userData._id;
-
-  next();
 };
 
 module.exports = authMiddleware;

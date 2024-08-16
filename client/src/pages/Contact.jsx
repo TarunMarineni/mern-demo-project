@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../store/auth";
 
 export const Contact = () => {
@@ -44,7 +46,13 @@ export const Contact = () => {
 
       if (response.ok) {
         setContact({ username: "", email: "", message: "" });
-        alert("Message sent successfully");
+        toast.success("Message sent successfully", {
+          theme: "colored",
+        });
+      } else {
+        toast.error("There is an issue to sent contact form!", {
+          theme: "colored",
+        });
       }
     } catch (error) {
       console.log(error);

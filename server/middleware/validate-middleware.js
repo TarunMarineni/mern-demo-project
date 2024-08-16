@@ -1,4 +1,4 @@
-const userValidationMiddleware = (schema) => async (req, res, next) => {
+const validationMiddleware = (schema) => async (req, res, next) => {
   try {
     const parseBody = await schema.parseAsync(req.body);
     req.body = parseBody;
@@ -9,4 +9,4 @@ const userValidationMiddleware = (schema) => async (req, res, next) => {
   }
 };
 
-module.exports = userValidationMiddleware;
+module.exports = validationMiddleware;
