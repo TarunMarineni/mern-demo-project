@@ -3,11 +3,11 @@ import { useAuth } from "../store/auth";
 import "./Admin-Table.css";
 
 export const AdminContacts = () => {
-  const { authorizationToken } = useAuth();
+  const { authorizationToken, API } = useAuth();
   const [contacts, setContacts] = useState([]);
 
   const getAllContacts = async () => {
-    const response = await fetch("http://localhost:5000/api/admin/contacts", {
+    const response = await fetch(`${API}/api/admin/contacts`, {
       method: "GET",
       headers: {
         Authorization: authorizationToken,
@@ -15,7 +15,6 @@ export const AdminContacts = () => {
     });
 
     const data = await response.json();
-    console.log(data.contacts);
 
     setContacts(data.contacts);
   };
@@ -28,13 +27,11 @@ export const AdminContacts = () => {
     <div className="w-full px-10">
       <h2 className="font-bold text-[30px]">Admin Contacts Data</h2>
       <div>
-        <table className="m-4 w-full border-solid border-black border rounded-2xl">
+        <table className="m-4 w-full border-solid border-black border rounded-2xl text-[20px]">
           <tr>
             <th>User Name</th>
             <th>Email</th>
             <th>Message</th>
-            <th>Edit</th>
-            <th>Delete</th>
           </tr>
 
           {contacts.map((currentElem, index) => (
@@ -46,8 +43,6 @@ export const AdminContacts = () => {
               </td>
               <td>{currentElem.email}</td>
               <td>{currentElem.message}</td>
-              <td>Edit</td>
-              <td>Delete</td>
             </tr>
           ))}
         </table>

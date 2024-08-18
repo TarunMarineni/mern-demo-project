@@ -11,9 +11,8 @@ export const Register = () => {
     email: "",
     password: "",
   });
-
   const navigate = useNavigate();
-  const { setTokenInLC } = useAuth();
+  const { setTokenInLC, API } = useAuth();
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -27,7 +26,7 @@ export const Register = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch(`${API}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -3,8 +3,6 @@ import { useAuth } from "../store/auth";
 export const Services = () => {
   const { services } = useAuth(); // Keep this as is
 
-  console.log("Services Data:", services);
-
   // Make sure you're accessing services.response, not just services
   const serviceList = services.response || []; // Default to an empty array if response is undefined
 

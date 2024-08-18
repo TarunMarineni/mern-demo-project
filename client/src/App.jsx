@@ -20,23 +20,25 @@ const App = () => {
     <>
       <BrowserRouter>
         <Navbar />
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="*" element={<Error />} />
+        <div className="absolute top-20 right-0 left-0">
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="*" element={<Error />} />
 
-          {/* Admin routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="users" element={<AdminUsers />} />
-            <Route path="contacts" element={<AdminContacts />} />
-            <Route path="users/:id/edit" element={<AdminUserEdit />} />
-          </Route>
-        </Routes>
+            {/* Admin routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="contacts" element={<AdminContacts />} />
+              <Route path="users/:id/edit" element={<AdminUserEdit />} />
+            </Route>
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );

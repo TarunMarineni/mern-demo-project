@@ -5,7 +5,7 @@ export const Navbar = () => {
   const { isLoggedIn } = useAuth();
   return (
     <>
-      <div className="nav-bar flex p-6 items-center justify-between space-x-10">
+      <div className="nav-bar flex p-6 items-center fixed z-10 h-20 right-0 left-0 bg-white justify-between space-x-10">
         <div className="logo">LOGO</div>
         <nav className="nav-bar">
           <ul className="flex space-x-4">

@@ -6,25 +6,23 @@ import { useAuth } from "../store/auth";
 
 export const AdminUserEdit = () => {
   const { id } = useParams();
-  const { authorizationToken } = useAuth();
+  const { authorizationToken, API } = useAuth();
   const [user, setUser] = useState({
     username: "",
     email: "",
     phone: "",
   });
+
   const navigate = useNavigate();
 
   const getUserById = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/admin/users/${id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: authorizationToken,
-          },
-        }
-      );
+      const response = await fetch(`${API}/api/admin/users/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
       const data = await response.json();
 
       setUser({
@@ -40,17 +38,14 @@ export const AdminUserEdit = () => {
   const updateUserHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/admin/users/update/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorizationToken,
-          },
-          body: JSON.stringify(user),
-        }
-      );
+      const response = await fetch(`${API}/api/admin/users/update/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+        body: JSON.stringify(user),
+      });
 
       const data = await response.json();
       if (!data.acknowledged) {

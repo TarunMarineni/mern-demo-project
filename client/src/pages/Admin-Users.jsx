@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "./Admin-Table.css";
 
 export const AdminUsers = () => {
-  const { authorizationToken } = useAuth();
+  const { authorizationToken, API } = useAuth();
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   const getAllUsers = async () => {
-    const response = await fetch("http://localhost:5000/api/admin/users", {
+    const response = await fetch(`${API}/api/admin/users`, {
       method: "GET",
       headers: {
         Authorization: authorizationToken,
@@ -23,15 +23,12 @@ export const AdminUsers = () => {
 
   const deleteUserHandler = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/admin/users/delete/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: authorizationToken,
-          },
-        }
-      );
+      const response = await fetch(`${API}/api/admin/users/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
 
       const res = await response.json();
       if (res.isDeleted) {
@@ -51,7 +48,7 @@ export const AdminUsers = () => {
   }, []);
 
   return (
-    <div className="w-full px-10">
+    <div className="w-full px-10 ">
       <h2 className="font-bold text-[30px]">Admin Users Data</h2>
       <div>
         <table className="m-4 w-full border-solid border-black border rounded-2xl text-[20px]">

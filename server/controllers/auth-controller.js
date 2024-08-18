@@ -1,72 +1,63 @@
 const bcrypt = require("bcryptjs");
 const UserModel = require("../model/user-model");
 
-const home = async (req, res, next) => {
-  try {
-    return res.send("Home api");
-  } catch (error) {
-    // return res.status(400).json({ message: "Internal server error" });
-    next({ status: 400, message: "Internal server error" });
-  }
-};
-
 const register = async (req, res, next) => {
   try {
     const { username, email, phone, password, isAdmin } = req.body;
 
-    const userExist = await UserModel.findOne({ email: email });
+    const userExist = await UserModel.findOne({ email });
 
     if (userExist) {
-      // return res.status(400).json({
-      //   message: "User already exist",
-      // });
-      next({ status: 400, message: "User already exist" });
+      return next({ status: 400, message: "User already exists" });
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await UserModel.create({
       username,
       email,
       phone,
-      password,
+      password: hashedPassword,
       isAdmin,
     });
 
     return res.status(201).json({
-      message: "Registration succesfully created",
+      message: "Registration successfully created",
       token: createdUser.generateToken(),
       userId: createdUser._id.toString(),
     });
   } catch (error) {
-    // return res.status(400).json({ message: "Internal server error" });
-    next({ status: 400, message: "Internal server error" });
+    return next({ status: 500, message: "Internal server error" });
   }
 };
 
 const login = async (req, res, next) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const existUser = await UserModel.findOne({ email });
+    const existUser = await UserModel.findOne({ email });
 
-  if (!existUser) {
-    // return res.status(401).json({ message: "Invalid credentials" });
-    next({ status: 400, message: "Invalid credentials" });
-  }
+    if (!existUser) {
+      return next({ status: 400, message: "Invalid credentials" });
+    }
 
-  const validatePassword = await existUser.comparePassword(password);
+    const validatePassword = await existUser.comparePassword(password);
 
-  if (validatePassword) {
-    return res.status(201).json({
-      message: "Login succesfully",
-      token: existUser.generateToken(),
-      userId: existUser._id.toString(),
-    });
-  } else {
-    // return res.status(400).json({ message: "Invalid email or password" });
-    next({ status: 400, message: "Invalid email or password" });
+    if (validatePassword) {
+      return res.status(200).json({
+        message: "Login successfully",
+        token: existUser.generateToken(),
+        userId: existUser._id.toString(),
+      });
+    } else {
+      return next({ status: 400, message: "Invalid email or password" });
+    }
+  } catch (error) {
+    return next({ status: 500, message: "Internal server error" });
   }
 };
 
-const user = (req, res) => {
+const user = (req, res, next) => {
   try {
     const userData = req.user;
 
@@ -74,8 +65,8 @@ const user = (req, res) => {
       userData,
     });
   } catch (error) {
-    console.log(error);
+    return next({ status: 500, message: "Internal server error" });
   }
 };
 
-module.exports = { home, register, login, user };
+module.exports = { register, login, user };

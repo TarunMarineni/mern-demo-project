@@ -3,8 +3,8 @@ import { NavLink, Outlet } from "react-router-dom";
 export const AdminLayout = () => {
   return (
     <>
-      <div className="flex">
-        <header className="flex flex-col space-y-4 px-4 text-xl bg-black">
+      <div className="flex relative">
+        <header className="flex fixed w-[30px] flex-col space-y-4 px-4 text-[20px] font-bold">
           <div>
             <NavLink className="text-blue-400" to="/admin/users">
               Users
@@ -26,7 +26,9 @@ export const AdminLayout = () => {
             </NavLink>
           </div>
         </header>
-        <Outlet />
+        <div className="absolute left-40 right-0 w-auto">
+          <Outlet />
+        </div>
       </div>
     </>
   );
