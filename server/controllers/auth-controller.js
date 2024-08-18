@@ -11,13 +11,11 @@ const register = async (req, res, next) => {
       return next({ status: 400, message: "User already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const createdUser = await UserModel.create({
       username,
       email,
       phone,
-      password: hashedPassword,
+      password,
       isAdmin,
     });
 
@@ -38,7 +36,7 @@ const login = async (req, res, next) => {
     const existUser = await UserModel.findOne({ email });
 
     if (!existUser) {
-      return next({ status: 400, message: "Invalid credentials" });
+      return next({ status: 400, message: "No user found with this email" });
     }
 
     const validatePassword = await existUser.comparePassword(password);
@@ -50,7 +48,7 @@ const login = async (req, res, next) => {
         userId: existUser._id.toString(),
       });
     } else {
-      return next({ status: 400, message: "Invalid email or password" });
+      return next({ status: 400, message: "Invalid password" });
     }
   } catch (error) {
     return next({ status: 500, message: "Internal server error" });

@@ -29,13 +29,14 @@ userSchema.pre("save", async function (next) {
   const user = this;
 
   if (!user.isModified("password")) {
-    next();
+    return next();
   }
 
   try {
     const saltRound = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(user.password, saltRound);
     user.password = hashPassword;
+    next();
   } catch (error) {
     next(error);
   }
@@ -60,9 +61,10 @@ userSchema.methods.generateToken = function () {
 };
 
 userSchema.methods.comparePassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+  const isMatch = await bcrypt.compare(password, this.password);
+  return isMatch;
 };
 
-const UserModel = mongoose.models.User || mongoose.model("User", userSchema);
+const UserModel = mongoose.model("User", userSchema);
 
 module.exports = UserModel;
