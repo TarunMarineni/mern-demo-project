@@ -27,25 +27,31 @@ export const AdminContacts = () => {
     <div className="w-full px-10">
       <h2 className="font-bold text-[30px]">Admin Contacts Data</h2>
       <div>
-        <table className="m-4 w-full border-solid border-black border rounded-2xl text-[20px]">
-          <tr>
-            <th>User Name</th>
-            <th>Email</th>
-            <th>Message</th>
-          </tr>
-
-          {contacts.map((currentElem, index) => (
-            <tr key={index}>
-              <td>
-                {currentElem.username
-                  ? currentElem.username
-                  : currentElem.userName}
-              </td>
-              <td>{currentElem.email}</td>
-              <td>{currentElem.message}</td>
+        {!contacts ? (
+          <>
+            <div className="m-4 w-full text-[20px]">No contacts found</div>
+          </>
+        ) : (
+          <table className="m-4 w-full border-solid border-black border rounded-2xl text-[20px]">
+            <tr>
+              <th>User Name</th>
+              <th>Email</th>
+              <th>Message</th>
             </tr>
-          ))}
-        </table>
+
+            {contacts.map((currentElem, index) => (
+              <tr key={index}>
+                <td>
+                  {currentElem.username
+                    ? currentElem.username
+                    : currentElem.userName}
+                </td>
+                <td>{currentElem.email}</td>
+                <td>{currentElem.message}</td>
+              </tr>
+            ))}
+          </table>
+        )}
       </div>
     </div>
   );
