@@ -22,7 +22,7 @@ app.use(errorMiddleware);
 
 const PORT = 5001;
 connectDB().then(() => {
-  app.listen(PORT, () => {
+  app.listen(process.env.PORT || PORT, () => {
     console.log("Server executes in port: ", PORT);
   });
 });
